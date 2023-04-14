@@ -24,9 +24,6 @@ def funcao_principal():
         print("Tipo: Gato")
         tipo = "Gato"
         
-    print("Nome:",linha1)
-    print("Idade:",linha2)
-    print("Raça:",linha3)
     
     cursor = banco.cursor()
     comando_SQL = "INSERT INTO pets (nome,idade,raca,tipo) VALUES (%s,%s,%s,%s)"
