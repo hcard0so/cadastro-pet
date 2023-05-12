@@ -18,13 +18,10 @@ def funcao_principal():
     tipo = ""
     
     if formulario.radioButton.isChecked() :
-        print("Tipo: Cachorro")
         tipo = "Cachorro"
     else:
-        print("Tipo: Gato")
         tipo = "Gato"
         
-    
     cursor = banco.cursor()
     comando_SQL = "INSERT INTO pets (nome,idade,raca,tipo) VALUES (%s,%s,%s,%s)"
     dados = (str(linha1),str(linha2),str(linha3),tipo)
@@ -33,6 +30,7 @@ def funcao_principal():
     formulario.lineEdit.setText("")
     formulario.lineEdit_2.setText("")
     formulario.lineEdit_3.setText("")
+
 
 def excluir():
    linha = segunda_tela.tableWidget.currentRow()
@@ -43,27 +41,10 @@ def excluir():
    dados_lidos = cursor.fetchall()
    valor_id = dados_lidos[linha][0]
    cursor.execute("DELETE FROM pets WHERE id="+ str(valor_id))
+ 
+#def editar_dados():
    
-def editar_dados():
-   global id_value
-   linha = segunda_tela.tableWidget.currentRow()
-
-   cursor = banco.cursor()
-   cursor.execute("SELECT id FROM pets")
-   dados_lidos = cursor.fetchall()
-   valor_id = dados_lidos[linha][0]
-   cursor.execute("SELECT * FROM pets WHERE id="+ str(valor_id))
-   pet = cursor.fetchall()
-   tela_editar.show()
-
-   id_value = valor_id
-
-   tela_editar.lineEdit.setText(str(pet[0][0]))
-   tela_editar.lineEdit_2.setText(str(pet[0][1]))
-   tela_editar.lineEdit_3.setText(str(pet[0][2]))
-   tela_editar.lineEdit_4.setText(str(pet[0][3]))
-   tela_editar.lineEdit_5.setText(str(pet[0][4]))
-   
+     
 def salvar_dados():
     global id_value
     nome = tela_editar.lineEdit_2.text()
@@ -76,9 +57,9 @@ def salvar_dados():
     
     tela_editar.close()
     segunda_tela.close()
-    get_screen()
+    pegar_tela()
     
-def get_screen():
+def pegar_tela():
     segunda_tela.show()
     
     cursor = banco.cursor()
@@ -100,10 +81,10 @@ formulario=uic.loadUi("formulario.ui")
 segunda_tela=uic.loadUi("listar_pets.ui")
 tela_editar=uic.loadUi("menu_editar.ui")
 formulario.pushButton.clicked.connect(funcao_principal)
-formulario.pushButton_2.clicked.connect(get_screen)
+formulario.pushButton_2.clicked.connect(pegar_tela)
 segunda_tela.pushButton.clicked.connect(excluir)
-segunda_tela.pushButton_2.clicked.connect(editar_dados)
 tela_editar.pushButton.clicked.connect(salvar_dados)
+
 
 
 formulario.show()
